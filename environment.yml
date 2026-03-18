@@ -16,4 +16,5 @@ dependencies:
   - ultralytics
   - pip:
     - mediapipe
+    - face-alignment
   
