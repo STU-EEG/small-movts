@@ -1,0 +1,16 @@
+name: ultralytics-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - jupyter
+  - pip
+  - numpy
+  - opencv
+  - matplotlib
+  - pandas
+  - pip:
+    - ultralytics
+    - torch
+    - torchvision

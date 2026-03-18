@@ -1,0 +1,15 @@
+name: mediapipe-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - jupyter
+  - ipykernel
+  - matplotlib
+  - numpy
+  - opencv
+  - pip
+  - scipy
+  - pip:
+    - mediapipe
