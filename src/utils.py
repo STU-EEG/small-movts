@@ -8,7 +8,6 @@ import cv2
 import numpy as np
 from scipy.spatial.distance import cdist
 from ultralytics.models.yolo import YOLO
-from ultralytics.engine.results import Keypoints
 
 
 def nw_smoothing(x: Sequence[int], y: Sequence[np.float32], sigma: float) -> list[np.float32]:
@@ -59,7 +58,7 @@ def track_people(params: CropHeadParams) -> KeypointsInfo:
         frame_idx += 1
 
         if tracked.keypoints is not None and tracked.keypoints.data is not None:
-            keypoints_arr = np.array(tracked.keypoints.data)
+            keypoints_arr = tracked.keypoints.data.cpu().numpy()
             for i_kp, keypoints in enumerate(keypoints_arr):
             
                 left_eye = keypoints[1][:2] if keypoints[1][2] > 0 else None
