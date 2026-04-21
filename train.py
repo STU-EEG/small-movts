@@ -206,10 +206,10 @@ def main():
         'max_frames': 30,  # Approximately 1s at 30fps
         'num_workers': 2,
         'checkpoint_dir': 'checkpoints',
-        'train_b_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/train/b',
-        'train_nb_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/train/nb',
-        'test_b_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/test/b',
-        'test_nb_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/test/nb'
+        'train_b_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/accepted/train/b',
+        'train_nb_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/accepted/train/nb',
+        'test_b_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/accepted/test/b',
+        'test_nb_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/accepted/test/nb'
     }
     
     # Create checkpoint directory
