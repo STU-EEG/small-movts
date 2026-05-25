@@ -121,12 +121,12 @@ def main():
                 }
                 
                 # Save latest checkpoint
-                torch.save(checkpoint, os.path.join(config['checkpoint_dir'], 'latest_checkpoint.pth'))
+                torch.save(checkpoint, os.path.join(arch_checkpoint_dir, 'latest_checkpoint.pth'))
                 
                 # Save best checkpoint
                 if val_acc > best_val_acc:
                     best_val_acc = val_acc
-                    torch.save(checkpoint, os.path.join(config['checkpoint_dir'], 'best_checkpoint.pth'))
+                    torch.save(checkpoint, os.path.join(arch_checkpoint_dir, 'best_checkpoint.pth'))
                     print(f'New best model saved with validation accuracy: {val_acc:.2f}%')
             
             print(f'\nCompleted {arch}! Best validation accuracy: {best_val_acc:.2f}%')
