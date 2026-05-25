@@ -37,7 +37,7 @@ def compute_all_metrics(model, dataloader, device):
     metrics['precision'] = precision_score(y_true, y_pred, average='binary', zero_division=0) * 100
     metrics['recall'] = recall_score(y_true, y_pred, average='binary', zero_division=0) * 100
     metrics['f1_score'] = f1_score(y_true, y_pred, average='binary', zero_division=0) * 100
-
+    return metrics
 
 def main():
     config = {
