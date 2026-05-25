@@ -16,7 +16,7 @@ def main():
         'learning_rate': 0.001,
         'max_frames': 30,  # Approximately 1s at 30fps
         'num_workers': 2,
-        'checkpoint_dir': 'checkpoints',
+        'checkpoint_dir': 'checkpoints_repetition1',
         'train_b_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/accepted/train/b',
         'train_nb_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/accepted/train/nb',
         'test_b_dir': '/share/Share/valera/veeg_june19_2025_vzuev/videos_cropped/accepted/test/b',
