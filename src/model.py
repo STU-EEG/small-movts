@@ -595,14 +595,14 @@ def train_epoch(model, dataloader, criterion, optimizer, device):
     return running_loss / len(dataloader), 100. * correct / total
 
 # Validation function
-def validate(model, dataloader, criterion, device):
+def validate(model, dataloader, criterion, device, verbose: bool = True):
     model.eval()
     running_loss = 0.0
     correct = 0
     total = 0
     
     with torch.no_grad():
-        for videos, labels in tqdm(dataloader, desc='Validation'):
+        for videos, labels in tqdm(dataloader, desc='Validation', disable = not verbose):
             videos, labels = videos.to(device), labels.to(device)
             outputs = model(videos)
             loss = criterion(outputs, labels)

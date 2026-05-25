@@ -1,9 +1,42 @@
 import torch
 import torch.nn as nn
+import numpy as np
 from torch.utils.data import DataLoader
 from pathlib import Path
 
+from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score)
+
 from src.model import VideoDataset, Simple3DCNN, UnifiedBlinkDetector, collate_fn, validate
+
+def compute_all_metrics(model, dataloader, device): 
+    """
+    Compute comprehensive classification metrics.
+    Returns: dict with all metrics, plus predictions and labels for detailed analysis
+    """
+    model.eval()
+    all_preds = []
+    all_labels = []
+    
+    with torch.no_grad():
+        for videos, labels in dataloader:
+            videos, labels = videos.to(device), labels.to(device)
+            outputs = model(videos)
+            _, predicted = outputs.max(1)
+            
+            all_preds.extend(predicted.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+    
+    y_true = np.array(all_labels)
+    y_pred = np.array(all_preds)
+    
+    metrics = {}
+    
+    metrics['accuracy'] = accuracy_score(y_true, y_pred) * 100
+    
+    # Per-class metrics (class 0 = non-blink, class 1 = blink)
+    metrics['precision'] = precision_score(y_true, y_pred, average='binary', zero_division=0) * 100
+    metrics['recall'] = recall_score(y_true, y_pred, average='binary', zero_division=0) * 100
+    metrics['f1_score'] = f1_score(y_true, y_pred, average='binary', zero_division=0) * 100
 
 
 def main():
@@ -70,12 +103,14 @@ def main():
             model.load_state_dict(checkpoint['model_state_dict'])
             print(f"Loaded checkpoint (val_acc: {checkpoint.get('val_acc', 'N/A'):.2f}%)")
             
-            test_loss, test_acc = validate(model, test_loader, criterion, device)
+            test_loss, test_acc = validate(model, test_loader, criterion, device, verbose=False)
+            metrics = compute_all_metrics(model, test_loader, device)
             
             print(f"Test Loss: {test_loss:.4f}")
             print(f"Test Accuracy: {test_acc:.2f}%")
 
-            test_loss2, test_acc2 = validate(model, test_subject2_loader, criterion, device)
+            test_loss2, test_acc2 = validate(model, test_subject2_loader, criterion, device, verbose=False)
+            metrics_subject2 = compute_all_metrics(model, test_subject2_loader, device)
             print(f"\n unseen subject - generalization test:")
             print(f"   Test Loss: {test_loss2:.4f}")
             print(f"   Test Accuracy: {test_acc2:.2f}%")
@@ -83,6 +118,8 @@ def main():
             
             
             results[arch_name] = {
+                'metrics': metrics,
+                'metrics_subj2': metrics_subject2,
                 'test_acc': test_acc,
                 'test_loss': test_loss,
                 'val_acc': checkpoint.get('val_acc', 0),
