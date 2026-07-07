@@ -1,0 +1,16 @@
+name: mne
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - jupyter
+  - pip
+  - numpy
+  - scipy
+  - matplotlib
+  - opencv
+  - scikit-learn
+  - pandas
+  - pip:
+    - mne
