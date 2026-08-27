@@ -325,7 +325,7 @@ class VideoProcessor:
     def find_non_overlapping_intervals(self, video_start: float, video_end: float,
                                        interval_duration: float = 3.0,
                                        min_gap: float = 3.0) -> List[Tuple[float, float]]:
-        """Find non-overlapping 3-second intervals without any blinks from all files."""
+        """Find non-overlapping 3-second intervals without any blinks"""
         # Get all blinks within video range
         all_blinks = self.all_blink_times[
             (self.all_blink_times >= video_start) & 
@@ -363,7 +363,7 @@ class VideoProcessor:
             if interval_start >= video_start and interval_end <= video_end:
                 intervals.append((interval_start, interval_end))
         
-        return intervals[:5]  # Limit to 5 intervals
+        return intervals[:5]  # Limit to 5 intervals to avoid imbalance
     
     def process_video(self, video_file: Path):
         """Process a single video file."""
@@ -417,7 +417,7 @@ class VideoProcessor:
             self.crop_video_segment(video_file, crop_start_rel, crop_end_rel, 
                                    head_center, size_fraction, output_path)
         
-        # Find and process non-overlapping intervals (using all blink files)
+        # Find and process non-overlapping intervals
         intervals = self.find_non_overlapping_intervals(video_start_offset, video_end_offset)
         
         for i, (interval_start_abs, interval_end_abs) in enumerate(intervals):
