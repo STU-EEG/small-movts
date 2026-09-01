@@ -78,6 +78,12 @@ class VideoDataset(Dataset):
         
         return video, self.label
 
+class PartialVideoDataset(VideoDataset):
+    def __init__(self, video_files: np.typing.ArrayLike, label: int, max_frames=30):
+        self.video_files = video_files
+        self.label = label
+        self.max_frames = max_frames
+
 # Collate function to handle variable dimensions
 def collate_fn(batch):
     """Custom collate function for variable-sized videos"""

@@ -2,6 +2,8 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
+
+import logging
 import pickle
 
 import cv2
@@ -254,7 +256,7 @@ class VideoProcessor:
         self.logger = logger
     
     def crop_video_segment(self, video_path: Path, start_time_rel: float, end_time_rel: float,
-                          head_center: Tuple[int, int], half_size: int, output_path: Path):
+                          head_center: tuple[int, int], half_size: int, output_path: Path):
         """Crop a segment from video around the head.
         
         Args:
@@ -324,7 +326,7 @@ class VideoProcessor:
     
     def find_non_overlapping_intervals(self, video_start: float, video_end: float,
                                        interval_duration: float = 3.0,
-                                       min_gap: float = 3.0) -> List[Tuple[float, float]]:
+                                       min_gap: float = 3.0) -> list[tuple[float, float]]:
         """Find non-overlapping 3-second intervals without any blinks"""
         # Get all blinks within video range
         all_blinks = self.all_blink_times[
@@ -464,3 +466,13 @@ class VideoProcessor:
             if not video_file.stem.endswith("s"):
                 continue
             self.process_video(video_file)
+
+def train_test_split(
+        arr: np.typing.ArrayLike,
+        seed: int,
+        train_fraction: float = .6) -> tuple[np.ndarray, np.ndarray]:
+    np.random.seed(seed)
+    arr_shuffled = np.random.permutation(arr)
+    split_idx = int(train_fraction * len(arr_shuffled))
+    return arr_shuffled[:split_idx], arr_shuffled[split_idx:]
+
