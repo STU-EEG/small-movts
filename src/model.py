@@ -1,3 +1,5 @@
+from typing import Sequence
+
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset
@@ -79,7 +81,7 @@ class VideoDataset(Dataset):
         return video, self.label
 
 class PartialVideoDataset(VideoDataset):
-    def __init__(self, video_files: np.typing.ArrayLike, label: int, max_frames=30):
+    def __init__(self, video_files: Sequence, label: int, max_frames=30):
         self.video_files = video_files
         self.label = label
         self.max_frames = max_frames
