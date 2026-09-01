@@ -6,8 +6,7 @@ from torch.utils.data import DataLoader
 import os
 import json
 
-from src.model import VideoDataset, PartialVideoDataset, Simple3DCNN, UnifiedBlinkDetector, collate_fn, train_epoch, validate
-from src.utils import train_test_split
+from src.model import VideoDataset, PartialVideoDataset, Simple3DCNN, UnifiedBlinkDetector, collate_fn, train_epoch, validate, train_test_split
 
 def single_pass(train_split_seed: int, arch: str, config: dict[str, int | float | str]) -> float:
     ...

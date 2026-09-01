@@ -467,12 +467,3 @@ class VideoProcessor:
                 continue
             self.process_video(video_file)
 
-def train_test_split(
-        arr: np.typing.ArrayLike,
-        seed: int,
-        train_fraction: float = .6) -> tuple[np.ndarray, np.ndarray]:
-    np.random.seed(seed)
-    arr_shuffled = np.random.permutation(arr)
-    split_idx = int(train_fraction * len(arr_shuffled))
-    return arr_shuffled[:split_idx], arr_shuffled[split_idx:]
-

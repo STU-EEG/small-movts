@@ -86,6 +86,15 @@ class PartialVideoDataset(VideoDataset):
         self.label = label
         self.max_frames = max_frames
 
+def train_test_split(
+        arr: Sequence,
+        seed: int,
+        train_fraction: float = .6) -> tuple[np.ndarray, np.ndarray]:
+    np.random.seed(seed)
+    arr_shuffled = np.random.permutation(arr)
+    split_idx = int(train_fraction * len(arr_shuffled))
+    return arr_shuffled[:split_idx], arr_shuffled[split_idx:]
+
 # Collate function to handle variable dimensions
 def collate_fn(batch):
     """Custom collate function for variable-sized videos"""
