@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Sequence
 
 import torch
@@ -85,6 +86,14 @@ class PartialVideoDataset(VideoDataset):
         self.video_files = video_files
         self.label = label
         self.max_frames = max_frames
+
+def get_blink_nonblink_video_paths(train_dir: Path) -> tuple[list[Path], list[Path]]:
+    paths: list[Path] = list(train_dir.glob("*.mp4"))
+    paths_b = [p for p in paths if p.stem.startswith('b')]
+    paths_nb = [p for p in paths if p.stem.startswith('n')]
+    print(f'found {len(paths_b)} blink and {len(paths_nb)} non-blink files in train dir {train_dir}')
+    return paths_b, paths_nb
+    
 
 def train_test_split(
         arr: Sequence,

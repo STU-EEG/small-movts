@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 import os
 import json
 
-from src.model import VideoDataset, PartialVideoDataset, Simple3DCNN, UnifiedBlinkDetector, collate_fn, train_epoch, validate, train_test_split
+from src.model import PartialVideoDataset, UnifiedBlinkDetector, collate_fn, train_epoch, validate, train_test_split, get_blink_nonblink_video_paths
 
 def single_pass(train_split_seed: int, arch: str, config: dict[str, int | float | str]) -> float:
     ...
@@ -38,11 +38,8 @@ def main():
     print(f'Using device: {device}')
 
     train_dir = Path(config['train_dir'])
-    paths: list[Path] = list(train_dir.glob("*.mp4"))
-    paths_b = [p for p in paths if p.stem.startswith('b')]
-    paths_nb = [p for p in paths if p.stem.startswith('n')]
-    print(f'found {len(paths_b)} blink and {len(paths_nb)} non-blink files in train dir {train_dir}')
-
+    paths_b, paths_nb = get_blink_nonblink_video_paths(train_dir)
+    
     for train_split_seed in range(20): # 20 train/test splits
         # TODO to a separate function
         # Create datasets
