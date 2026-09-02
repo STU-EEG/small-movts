@@ -83,7 +83,7 @@ def main():
         _, paths_nb_test = train_test_split(paths_nb, train_split_seed)
         test_dataset = torch.utils.data.ConcatDataset([
                 PartialVideoDataset(paths_b_test, label=1, max_frames=config['max_frames']),
-                PartialVideoDataset(paths_b_test, label=0, max_frames=config['max_frames'])
+                PartialVideoDataset(paths_nb_test, label=0, max_frames=config['max_frames'])
             ])
         test_loader = DataLoader(test_dataset, batch_size=config['batch_size'], 
                             shuffle=False, num_workers=config['num_workers'], 
